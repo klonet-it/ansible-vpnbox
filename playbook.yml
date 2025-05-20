@@ -2,20 +2,40 @@
   hosts: all
   become: true
   vars:
-    vpn_ids: ["nbs","tredipi"]  # da passare via -e vpn_ids=["nbs","tredipi"]
+    vpn_ids: ["nbs", "tredipi"]  # Sovrascrivibile via -e vpn_ids=[...]
 
   tasks:
 
     - name: Verifica privilegi sudo
-      become: true
       command: whoami
-    
+      register: whoami_output
+
+    - name: Mostra l'utente effettivo
+      debug:
+        var: whoami_output.stdout
+
     - name: Debug - Mostra lista VPN da configurare
       debug:
         var: vpn_ids
 
-    - name: Recupera configurazioni VPN da Vault e installa OpenVPN
-      include_tasks: configure_openvpn.yml
+    - name: Installa OpenVPN
+      apt:
+        name: openvpn
+        state: present
+        update_cache: yes
+
+    - name: Recupera configurazione e scrive file per ogni VPN
+      block:
+        - name: Recupera configurazione per {{ item }}
+          set_fact:
+            openvpn_config: >-
+              {{ lookup('hashi_vault', 'secret=secret/vpnbox-' ~ item ~ ' field=openvpn_config') }}
+
+        - name: Scrive file /etc/openvpn/client-{{ item }}.conf
+          copy:
+            dest: "/etc/openvpn/client-{{ item }}.conf"
+            content: "{{ openvpn_config }}"
+            mode: '0600'
       loop: "{{ vpn_ids }}"
       loop_control:
-        loop_var: vpn_id
+        label: "{{ item }}"
