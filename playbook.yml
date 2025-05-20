@@ -11,16 +11,10 @@
       command: whoami
       register: whoami_output
 
-    - name: Mostra l'utente effettivo
-      debug:
-        var: whoami_output.stdout
+    
+    - name: Recupera configurazioni VPN da Vault e installa OpenVPN
+      include_tasks: configure_openvpn.yml
+      loop: "{{ vpn_ids }}"
+      loop_control:
+        loop_var: vpn_id
 
-    - name: Debug - Mostra lista VPN da configurare
-      debug:
-        var: vpn_ids
-
-    - name: Installa OpenVPN
-      apt:
-        name: openvpn
-        state: present
-        update_cache: yes
