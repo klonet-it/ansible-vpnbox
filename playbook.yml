@@ -25,7 +25,7 @@
 
     - name: Estrai VAULT_TOKEN
       set_fact:
-      VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
+        VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
 
     - name: Stampa il token ricevuto da Vault
       debug:
