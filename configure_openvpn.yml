@@ -25,14 +25,13 @@
 
 - name: Estrai openvpn_config dal segreto
   set_fact:
-    openvpn_config: "{{ vpnbox_secret.data.openvpn_config }}"
+    openvpn_config: "{{ openvpn_config }}"
 
-- name: Scrivi file /etc/openvpn/client-{{ vpn_id }}.conf
+- name: Scrivi file /etc/openvpn/client-nbs.conf
   become: true
   copy:
-    dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
-    content: "{{ vpnbox_secret.data.openvpn_config }}"
+    dest: "/etc/openvpn/client-nbs.conf"
+    content: "{{ openvpn_config }}"
     mode: '0600'
-
 
 
