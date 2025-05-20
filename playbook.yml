@@ -1,0 +1,13 @@
+- name: Setup OpenVPN Clients da Vault
+  hosts: vpnbox
+  become: true
+  vars:
+    vpn_ids:
+      - nbs
+      - tredipi
+  tasks:
+    - name: Recupera configurazioni VPN da Vault e installa OpenVPN
+      include_tasks: configure_openvpn.yml
+      loop: "{{ vpn_ids }}"
+      loop_control:
+        loop_var: vpn_id
