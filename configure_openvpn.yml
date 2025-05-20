@@ -14,19 +14,23 @@
     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
 
-- name: Recupera openvpn_config in modo statico
-  set_fact:
-    openvpn_config: >-
-      {{ lookup('hashi_vault',
-                'secret=secret/vpnbox-nbs field=openvpn_config',
-                token='{{ VAULT_TOKEN }}',
-                url='http://vault:8200') }}
+- name: Recupera segreto da Vault KV2 usando il modulo
+  community.hashi_vault.vault_kv2_get:
+    url: http://vault:8200
+    token: "{{ VAULT_TOKEN }}"
+    secret: secret/vpnbox-nbs
+    field: openvpn_config
+  register: vpn_secret_result
+
+- name: Utilizza il segreto
+  debug:
+    msg: "La configurazione OpenVPN è: {{ vpn_secret_result.value }}"
 
 - name: Scrivi file /etc/openvpn/client-{{ vpn_id }}.conf
   become: true
   copy:
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
-    content: "{{ openvpn_config }}"
+    content: "{{ vpn_secret_result.value }}"
     mode: '0600'
 
 
