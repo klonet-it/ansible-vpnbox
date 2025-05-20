@@ -1,5 +1,5 @@
 - name: Setup OpenVPN Clients da Vault
-  hosts: vpnbox
+  hosts: all
   become: true
   vars:
     vpn_ids: []
