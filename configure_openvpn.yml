@@ -28,8 +28,7 @@
   set_fact:
     openvpn_config: "{{ openvpn_config }}"
 
-- name: "Scrivi client-{{ vpn_id }}.conf"
-  become: true
+- name: Scrivi configurazione OpenVPN
   copy:
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
     content: "{{ openvpn_config }}"
