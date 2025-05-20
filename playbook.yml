@@ -8,19 +8,23 @@
 
 
   pre_tasks:
-    - name: Login a Vault con AppRole
-      set_fact:
-        vault_auth_response: >-
-          {{ lookup('community.hashi_vault.hashi_vault',
-                    'auth/approle/login',
-                    method='POST',
-                    json={'role_id': lookup("env", "VAULT_ROLE_ID"),
-                          'secret_id': lookup("env", "VAULT_SECRET_ID")},
-                    url=lookup("env", "VAULT_ADDR")) }}
+    - name: Login a Vault via AppRole
+      uri:
+        url: "{{ VAULT_ADDR }}/v1/auth/approle/login"
+        method: POST
+        body_format: json
+        headers:
+          Content-Type: "application/json"
+        body:
+          role_id: "{{ VAULT_ROLE_ID }}"
+          secret_id: "{{ VAULT_SECRET_ID }}"
+        return_content: yes
+      register: vault_login
+      delegate_to: localhost
 
-    - name: Estrai VAULT_TOKEN
+    - name: Set VAULT_TOKEN
       set_fact:
-        VAULT_TOKEN: "{{ vault_auth_response.auth.client_token }}"
+        VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
   tasks:
 
     - name: Verifica privilegi sudo
