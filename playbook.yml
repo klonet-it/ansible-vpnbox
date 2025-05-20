@@ -10,22 +10,23 @@
   pre_tasks:
     - name: Login a Vault via AppRole
       uri:
-        url: "{{ VAULT_ADDR }}/v1/auth/approle/login"
+        url: "{{ lookup('env', 'VAULT_ADDR') }}/v1/auth/approle/login"
         method: POST
         body_format: json
         headers:
           Content-Type: "application/json"
         body:
-          role_id: "{{ VAULT_ROLE_ID }}"
-          secret_id: "{{ VAULT_SECRET_ID }}"
+          role_id: "{{ lookup('env', 'VAULT_ROLE_ID') }}"
+          secret_id: "{{ lookup('env', 'VAULT_SECRET_ID') }}"
         return_content: yes
       register: vault_login
       delegate_to: localhost
 
-    - name: Set VAULT_TOKEN
-      set_fact:
-        VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
   tasks:
+
+    - name: Debug variabile VAULT_ADDR
+      debug:
+        msg: "{{ lookup('env', 'VAULT_ADDR') }}"
 
     - name: Verifica privilegi sudo
       command: whoami
