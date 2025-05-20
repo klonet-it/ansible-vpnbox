@@ -8,7 +8,7 @@
 
     - name: Debug lista VPN da configurare
       debug:
-	var: vpn_ids
+        var: vpn_ids
 
     - name: Recupera configurazioni VPN da Vault e installa OpenVPN
       include_tasks: configure_openvpn.yml
