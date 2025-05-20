@@ -5,6 +5,22 @@
   vars:
     vpn_ids: ["nbs", "tredipi"]  # Sovrascrivibile via -e vpn_ids=[...]
 
+
+
+  pre_tasks:
+    - name: Login a Vault con AppRole
+      set_fact:
+        vault_auth_response: >-
+          {{ lookup('community.hashi_vault.hashi_vault',
+                    'auth/approle/login',
+                    method='POST',
+                    json={'role_id': lookup("env", "VAULT_ROLE_ID"),
+                          'secret_id': lookup("env", "VAULT_SECRET_ID")},
+                    url=lookup("env", "VAULT_ADDR")) }}
+
+    - name: Estrai VAULT_TOKEN
+      set_fact:
+        VAULT_TOKEN: "{{ vault_auth_response.auth.client_token }}"
   tasks:
 
     - name: Verifica privilegi sudo
