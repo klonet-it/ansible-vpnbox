@@ -8,6 +8,11 @@
 
 
   pre_tasks:
+
+    - name: Mostra path di Python in uso
+      debug:
+       var: ansible_playbook_python
+
     - name: Login a Vault via AppRole
       uri:
         url: "{{ lookup('env', 'VAULT_ADDR') }}/v1/auth/approle/login"
