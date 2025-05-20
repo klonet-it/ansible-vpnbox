@@ -2,7 +2,7 @@
   hosts: all
   become: true
   vars:
-    vpn_ids: []  # da passare via -e vpn_ids=["nbs","tredipi"]
+    vpn_ids: ["nbs","tredipi"]  # da passare via -e vpn_ids=["nbs","tredipi"]
 
   tasks:
 
