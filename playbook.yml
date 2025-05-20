@@ -23,19 +23,3 @@
         name: openvpn
         state: present
         update_cache: yes
-
-    - name: Recupera configurazione e scrive file per ogni VPN
-      block:
-        - name: Recupera configurazione per {{ item }}
-          set_fact:
-            openvpn_config: >-
-              {{ lookup('hashi_vault', 'secret=secret/vpnbox-' ~ item ~ ' field=openvpn_config') }}
-
-        - name: Scrive file /etc/openvpn/client-{{ item }}.conf
-          copy:
-            dest: "/etc/openvpn/client-{{ item }}.conf"
-            content: "{{ openvpn_config }}"
-            mode: '0600'
-      loop: "{{ vpn_ids }}"
-      loop_control:
-        label: "{{ item }}"
