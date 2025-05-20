@@ -1,0 +1,6 @@
+all:
+  children:
+    test:
+      hosts:
+        192.168.173.103:
+           ansible_port: 22
