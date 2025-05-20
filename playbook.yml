@@ -31,12 +31,12 @@
       debug:
         msg: "Vault Token: {{ VAULT_TOKEN }}"
 
-    # - name: Propaga VAULT_TOKEN su tutti gli host
-    #   set_fact:
-    #     VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
-    #   run_once: true
-    #   delegate_to: localhost
-    #   delegate_facts: true
+    - name: Propaga VAULT_TOKEN su tutti gli host
+      set_fact:
+         VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
+         run_once: true
+         delegate_to: localhost
+         delegate_facts: true
 
   tasks:
 
