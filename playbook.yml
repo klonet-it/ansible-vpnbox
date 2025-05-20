@@ -12,6 +12,7 @@
 
     - name: Recupera configurazioni VPN da Vault e installa OpenVPN
       include_tasks: configure_openvpn.yml
+      become: true
       loop: "{{ vpn_ids }}"
       loop_control:
         loop_var: vpn_id
