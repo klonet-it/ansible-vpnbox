@@ -34,9 +34,3 @@
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
     content: "{{ openvpn_config }}"
     mode: '0600'
-
-- name: Debug per verificare il contenuto (parziale)
-  debug:
-    msg: "{{ openvpn_config.split('\n')[:5] }}"
-
-
