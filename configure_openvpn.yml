@@ -6,8 +6,8 @@
     update_cache: yes
   register: result_apt
   until: result_apt is succeeded
-  retries: 5
-  delay: 15
+  retries: 3
+  delay: 5
 
 - name: Debug VAULT_TOKEN sul nodo target
   debug:
