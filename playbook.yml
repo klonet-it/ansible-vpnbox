@@ -1,6 +1,7 @@
 - name: Setup OpenVPN Clients da Vault
   hosts: all
   become: true
+  become_user: root
   vars:
     vpn_ids: ["nbs", "tredipi"]  # Sovrascrivibile via -e vpn_ids=[...]
 
