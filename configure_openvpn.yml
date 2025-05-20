@@ -18,9 +18,10 @@
   community.hashi_vault.vault_kv2_get:
     url: http://vault:8200
     token: "{{ VAULT_TOKEN }}"
-    secret: secret/vpnbox-nbs
+    path: secret/vpnbox-nbs
     field: openvpn_config
   register: vpn_secret_result
+
 
 - name: Utilizza il segreto
   debug:
