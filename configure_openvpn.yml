@@ -1,15 +1,18 @@
 - name: Install OpenVPN
+  become: true
   apt:
     name: openvpn
     state: present
     update_cache: yes
 
 - name: Recupera configurazione per {{ vpn_id }}
+  become: true
   set_fact:
     openvpn_config: >-
       {{ lookup('hashi_vault', 'secret=secret/vpnbox-' ~ vpn_id ~ ' field=openvpn_config') }}
 
 - name: Scrivi file /etc/openvpn/client-{{ vpn_id }}.conf
+  become: true
   copy:
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
     content: "{{ openvpn_config }}"
