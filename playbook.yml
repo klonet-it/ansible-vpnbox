@@ -2,11 +2,15 @@
   hosts: all
   become: true
   vars:
-    vpn_ids: ["nbs","tredipi"]
+    vpn_ids: []  # da passare via -e vpn_ids=["nbs","tredipi"]
 
   tasks:
 
-    - name: Debug lista VPN da configurare
+    - name: Verifica privilegi sudo
+      become: true
+      command: whoami
+    
+    - name: Debug - Mostra lista VPN da configurare
       debug:
         var: vpn_ids
 

@@ -17,4 +17,3 @@
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
     content: "{{ openvpn_config }}"
     mode: '0600'
-
