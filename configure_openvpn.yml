@@ -19,7 +19,7 @@
         openvpn_config: >-
           {{ lookup('hashi_vault',
                    
-                    'secret=secret/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
+                    'secret=secret/data/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
                      token=lookup('env', 'VAULT_TEST_TOKEN'),
                      url=lookup('env', 'VAULT_ADDR')) }}
 
@@ -34,5 +34,9 @@
     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
     content: "{{ openvpn_config }}"
     mode: '0600'
+
+- name: Debug per verificare il contenuto (parziale)
+  debug:
+    msg: "{{ openvpn_config.split('\n')[:5] }}"
 
 
