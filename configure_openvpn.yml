@@ -9,6 +9,10 @@
   retries: 5
   delay: 15
 
+- name: Debug VAULT_TOKEN sul nodo target
+  debug:
+    msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
+
 - name: Recupera configurazione da Vault per {{ vpn_id }}
   set_fact:
     openvpn_config: >-
