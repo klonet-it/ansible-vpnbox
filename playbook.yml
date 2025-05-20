@@ -21,6 +21,7 @@
         return_content: yes
       register: vault_login
       delegate_to: localhost
+      become: false   # <-- aggiungi questa riga
 
   tasks:
 
