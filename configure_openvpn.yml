@@ -13,13 +13,14 @@
   debug:
     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
-- name: Recupera configurazione da Vault per {{ vpn_id }}
+
+- name: Recupera openvpn_config in modo statico
   set_fact:
     openvpn_config: >-
       {{ lookup('hashi_vault',
-                'secret=secret/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
-                token=VAULT_TOKEN,
-                url=lookup('env', 'VAULT_ADDR')) }}
+                'secret=secret/vpnbox-nbs field=openvpn_config',
+                token='{{ VAULT_TOKEN }}',
+                url='http://vault:8200') }}
 
 - name: Scrivi file /etc/openvpn/client-{{ vpn_id }}.conf
   become: true
