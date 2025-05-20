@@ -23,12 +23,20 @@
       delegate_to: localhost
       become: false   # <-- aggiungi questa riga
 
-    - name: Propaga VAULT_TOKEN su tutti gli host
+    - name: Estrai VAULT_TOKEN
       set_fact:
-        VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
-      run_once: true
-      delegate_to: localhost
-      delegate_facts: true
+      VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
+
+    - name: Stampa il token ricevuto da Vault
+      debug:
+        msg: "Vault Token: {{ VAULT_TOKEN }}"
+
+    # - name: Propaga VAULT_TOKEN su tutti gli host
+    #   set_fact:
+    #     VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
+    #   run_once: true
+    #   delegate_to: localhost
+    #   delegate_facts: true
 
   tasks:
 
