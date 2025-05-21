@@ -14,6 +14,13 @@
     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
 
+- name: Recupera segreto OpenVPN da Vault (raw)
+  community.hashi_vault.vault_kv2_get:
+    url: "{{ lookup('env', 'VAULT_ADDR') }}"
+    token: "{{ lookup('env', 'VAULT_TEST_TOKEN') }}"
+    path: "secret/vpnbox-{{ vpn_id }}"
+  register: vault_response
+
 - name: Imposta la variabile openvpn_config recuperandola da Vault
   ansible.builtin.set_fact:
         openvpn_config_raw: >-
