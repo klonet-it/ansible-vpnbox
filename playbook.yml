@@ -49,9 +49,9 @@
       debug:
         msg: "{{ lookup('env', 'VAULT_ADDR') }}"
 
-    - name: Verifica privilegi sudo
-      command: whoami
-      register: whoami_output
+    # - name: Verifica privilegi sudo
+    #   command: whoami
+    #   register: whoami_output
 
     
     - name: Recupera configurazioni VPN da Vault e installa OpenVPN
