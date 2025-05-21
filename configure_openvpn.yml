@@ -34,6 +34,6 @@
 
 -  name: Scrivi configurazione OpenVPN
    copy:
-   dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
-   content: "{{ openvpn_config }}"
-   mode: '0600'
+    dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
+    content: "{{ openvpn_config }}"
+    mode: '0600'
