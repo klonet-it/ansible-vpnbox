@@ -16,7 +16,7 @@
 
 - name: Imposta la variabile openvpn_config recuperandola da Vault
   ansible.builtin.set_fact:
-        openvpn_config: >-
+        openvpn_config_raw: >-
           {{ lookup('hashi_vault',
                    
                     'secret=secret/data/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
@@ -24,9 +24,9 @@
                      url=lookup('env', 'VAULT_ADDR')) }}
 
 
-- name: Estrai openvpn_config dal segreto
+- name: Decodifica stringa JSON in multilinea reale
   set_fact:
-    openvpn_config: "{{ openvpn_config }}"
+    openvpn_config: "{{ openvpn_config_raw | replace('\\n', '\n') }}"
 
 - name: Scrivi configurazione OpenVPN
   copy:
