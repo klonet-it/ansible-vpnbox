@@ -9,9 +9,9 @@
 
   pre_tasks:
 
-    - name: Mostra path di Python in uso
-      debug:
-       var: ansible_playbook_python
+    # - name: Mostra path di Python in uso
+    #   debug:
+    #    var: ansible_playbook_python
 
     - name: Login a Vault via AppRole
       uri:
@@ -32,16 +32,16 @@
       set_fact:
         VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
 
-    - name: Stampa il token ricevuto da Vault
-      debug:
-        msg: "Vault Token: {{ VAULT_TOKEN }}"
+    # - name: Stampa il token ricevuto da Vault
+    #   debug:
+    #     msg: "Vault Token: {{ VAULT_TOKEN }}"
 
-    - name: Propaga VAULT_TOKEN su tutti gli host
-      set_fact:
-         VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
-      run_once: true
-      delegate_to: localhost
-      delegate_facts: true
+    # - name: Propaga VAULT_TOKEN su tutti gli host
+    #   set_fact:
+    #      VAULT_TOKEN: "{{ vault_login.json.auth.client_token }}"
+    #   run_once: true
+    #   delegate_to: localhost
+    #   delegate_facts: true
 
   tasks:
 
