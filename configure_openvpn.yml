@@ -14,26 +14,40 @@
     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
 
-- name: Recupera segreto OpenVPN da Vault (raw)
+- name: Recupera configurazione OpenVPN da Vault con vault_kv2_get
   community.hashi_vault.vault_kv2_get:
     url: "{{ lookup('env', 'VAULT_ADDR') }}"
     token: "{{ lookup('env', 'VAULT_TEST_TOKEN') }}"
     path: "secret/vpnbox-{{ vpn_id }}"
   register: vault_response
+  delegate_to: localhost
 
-- name: Imposta la variabile openvpn_config recuperandola da Vault
-  ansible.builtin.set_fact:
-        openvpn_config_raw: >-
-          {{ lookup('hashi_vault',
-                   
-                    'secret=secret/data/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
-                     token=lookup('env', 'VAULT_TEST_TOKEN'),
-                     url=lookup('env', 'VAULT_ADDR')) }}
-
-
-- name: Decodifica stringa JSON in multilinea reale
+- name: Estrai configurazione OpenVPN
   set_fact:
-    openvpn_config: "{{ openvpn_config_raw | replace('\\n', '\n') }}"
+    openvpn_config: "{{ vault_response.data.openvpn_config }}"
+
+
+# - name: Recupera segreto OpenVPN da Vault (raw)
+#   community.hashi_vault.vault_kv2_get:
+  
+#     url: "{{ lookup('env', 'VAULT_ADDR') }}"
+#     token: "{{ lookup('env', 'VAULT_TEST_TOKEN') }}"
+#     path: "secret/vpnbox-{{ vpn_id }}"
+#   register: vault_response
+
+# - name: Imposta la variabile openvpn_config recuperandola da Vault
+#   ansible.builtin.set_fact:
+#         openvpn_config_raw: >-
+#           {{ lookup('hashi_vault',
+                   
+#                     'secret=secret/data/vpnbox-' ~ vpn_id ~ ' field=openvpn_config',
+#                      token=lookup('env', 'VAULT_TEST_TOKEN'),
+#                      url=lookup('env', 'VAULT_ADDR')) }}
+
+
+# - name: Decodifica stringa JSON in multilinea reale
+#   set_fact:
+#     openvpn_config: "{{ openvpn_config_raw | replace('\\n', '\n') }}"
 
 - name: Scrivi configurazione OpenVPN
   copy:
