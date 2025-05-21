@@ -24,13 +24,16 @@
   delegate_to: localhost
   become: false
 
+- name: Debug vault_response
+  debug:
+    var: vault_response.data
 
-- name: Estrai configurazione OpenVPN
-  set_fact:
-     openvpn_config: "{{ vault_response.openvpn_config }}"
+# - name: Estrai configurazione OpenVPN
+#   set_fact:
+#      openvpn_config: "{{ vault_response.data}}"
 
--  name: Scrivi configurazione OpenVPN
-   copy:
-    dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
-    content: "{{ openvpn_config }}"
-    mode: '0600'
+# -  name: Scrivi configurazione OpenVPN
+#    copy:
+#     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
+#     content: "{{ openvpn_config }}"
+#     mode: '0600'
