@@ -9,9 +9,9 @@
   retries: 3
   delay: 5
 
-- name: Debug VAULT_TOKEN sul nodo target
-  debug:
-    msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
+# - name: Debug VAULT_TOKEN sul nodo target
+#   debug:
+#     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
 
 - name: Recupera configurazione OpenVPN da Vault
@@ -24,9 +24,9 @@
   delegate_to: localhost
   become: false
 
-- name: Debug vault_response
-  debug:
-    var: vault_response.data.data.openvpn_config
+# - name: Debug vault_response
+#   debug:
+#     var: vault_response.data.data.openvpn_config
 
 # - name: Estrai configurazione OpenVPN
 #   set_fact:
