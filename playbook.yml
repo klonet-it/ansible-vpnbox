@@ -45,9 +45,9 @@
 
   tasks:
 
-    - name: Debug variabile VAULT_ADDR
-      debug:
-        msg: "{{ lookup('env', 'VAULT_ADDR') }}"
+    # - name: Debug variabile VAULT_ADDR
+    #   debug:
+    #     msg: "{{ lookup('env', 'VAULT_ADDR') }}"
 
     # - name: Verifica privilegi sudo
     #   command: whoami
