@@ -14,11 +14,12 @@
     msg: "Token sul nodo target: {{ VAULT_TOKEN | default('non definito') }}"
 
 
-- name: Recupera configurazione OpenVPN da Vault con vault_kv2_get
+- name: Recupera configurazione OpenVPN da Vault
   community.hashi_vault.vault_kv2_get:
     url: "{{ lookup('env', 'VAULT_ADDR') }}"
     token: "{{ lookup('env', 'VAULT_TEST_TOKEN') }}"
-    path: "secret/vpnbox-{{ vpn_id }}"
+    engine_mount_point: "secret"     # <== nome del mount, di default è 'secret'
+    path: "vpnbox-{{ vpn_id }}"      # <== solo la chiave, NON includere 'data/'
   register: vault_response
   delegate_to: localhost
   become: false
