@@ -24,9 +24,13 @@
   delegate_to: localhost
   become: false
 
-- name: Estrai configurazione OpenVPN
-  set_fact:
-    openvpn_config: "{{ vault_response.data.openvpn_config }}"
+- name: Debug vault_response
+  debug:
+    var: vault_response
+
+# - name: Estrai configurazione OpenVPN
+#   set_fact:
+#     openvpn_config: "{{ vault_response.data.openvpn_config }}"
 
 
 # - name: Recupera segreto OpenVPN da Vault (raw)
@@ -51,8 +55,8 @@
 #   set_fact:
 #     openvpn_config: "{{ openvpn_config_raw | replace('\\n', '\n') }}"
 
-- name: Scrivi configurazione OpenVPN
-  copy:
-    dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
-    content: "{{ openvpn_config }}"
-    mode: '0600'
+# - name: Scrivi configurazione OpenVPN
+#   copy:
+#     dest: "/etc/openvpn/client-{{ vpn_id }}.conf"
+#     content: "{{ openvpn_config }}"
+#     mode: '0600'
