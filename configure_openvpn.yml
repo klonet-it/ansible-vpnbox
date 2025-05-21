@@ -24,9 +24,6 @@
   delegate_to: localhost
   become: false
 
-- name: Debug vault_response
-  debug:
-    var: vault_response
 
 - name: Estrai configurazione OpenVPN
   set_fact:
