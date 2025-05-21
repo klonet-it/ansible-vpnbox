@@ -21,6 +21,7 @@
     path: "secret/vpnbox-{{ vpn_id }}"
   register: vault_response
   delegate_to: localhost
+  become: false
 
 - name: Estrai configurazione OpenVPN
   set_fact:
