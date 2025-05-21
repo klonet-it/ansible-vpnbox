@@ -27,7 +27,7 @@
 
 - name: Estrai configurazione OpenVPN
   set_fact:
-     openvpn_config: "{{ vault_response.data.openvpn_config }}"
+     openvpn_config: "{{ vault_response.openvpn_config }}"
 
 -  name: Scrivi configurazione OpenVPN
    copy:
